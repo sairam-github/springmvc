@@ -9,7 +9,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class AddController {
-	
 	@RequestMapping("/add")
 	public ModelAndView Add(HttpServletRequest req, HttpServletResponse resp) {
 		int i = Integer.parseInt(req.getParameter("t1"));
@@ -18,7 +17,7 @@ public class AddController {
 		int k = i + j;
 		
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("display.jsp");
+		mv.setViewName("/WEB-INF/display.jsp");
 		mv.addObject("result", k);
 		
 		return mv;
