@@ -1,4 +1,4 @@
-package com.ptc.sairam.Spring.SpringMvc;
+package com.ptc.sairam.Spring.SpringMvc.controllers;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
