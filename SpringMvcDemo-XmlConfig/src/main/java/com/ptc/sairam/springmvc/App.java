@@ -16,6 +16,7 @@ public class App
         context = new ClassPathXmlApplicationContext("Beans.xml");
         HelloWorld objA = (HelloWorld) context.getBean("helloWorld");
         objA.getMessage();
+        objA.setMessage("This is objA");
         
         HelloWorld objB = (HelloWorld) context.getBean("helloWorld");
         objB.setMessage("This is objB");
