@@ -14,7 +14,13 @@ public class App
 	public static void main( String[] args )
     {
         context = new ClassPathXmlApplicationContext("Beans.xml");
-        HelloWorld obj = (HelloWorld) context.getBean("helloWorld");
-        obj.getMessage();
+        HelloWorld objA = (HelloWorld) context.getBean("helloWorld");
+        objA.getMessage();
+        
+        HelloWorld objB = (HelloWorld) context.getBean("helloWorld");
+        objB.setMessage("This is objB");
+        
+        objA.getMessage();
+        objB.getMessage();
     }
 }
