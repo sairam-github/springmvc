@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ApplicationInsights
+	xmlns="http://schemas.microsoft.com/ApplicationInsights/2013/Settings"
+	schemaVersion="2014-05-30">
+
+
+	<!-- The key from the portal: -->
+	<!-- <InstrumentationKey>63d36c5e-c810-4562-978f-ed3dd1173bd1</InstrumentationKey> -->
+	<InstrumentationKey>ac29a1f4-8404-417e-9055-1b7a06b8847a
+	</InstrumentationKey>
+
+	<!-- HTTP request component (not required for bare API) -->
+	<TelemetryModules>
+		<Add
+			type="com.microsoft.applicationinsights.web.extensibility.modules.WebRequestTrackingTelemetryModule" />
+		<Add
+			type="com.microsoft.applicationinsights.web.extensibility.modules.WebSessionTrackingTelemetryModule" />
+		<Add
+			type="com.microsoft.applicationinsights.web.extensibility.modules.WebUserTrackingTelemetryModule" />
+	</TelemetryModules>
+
+	<!-- Events correlation (not required for bare API) -->
+	<!-- These initializers add context data to each event -->
+
+	<TelemetryInitializers>
+		<Add
+			type="com.microsoft.applicationinsights.web.extensibility.initializers.WebOperationIdTelemetryInitializer" />
+		<Add
+			type="com.microsoft.applicationinsights.web.extensibility.initializers.WebOperationNameTelemetryInitializer" />
+		<Add
+			type="com.microsoft.applicationinsights.web.extensibility.initializers.WebSessionTelemetryInitializer" />
+		<Add
+			type="com.microsoft.applicationinsights.web.extensibility.initializers.WebUserTelemetryInitializer" />
+		<Add
+			type="com.microsoft.applicationinsights.web.extensibility.initializers.WebUserAgentTelemetryInitializer" />
+
+	</TelemetryInitializers>
+	<SDKLogger type="FILE"><!-- or "CONSOLE" to print to stderr -->
+		<Level>TRACE</Level>
+		<UniquePrefix>AI</UniquePrefix>
+		<BaseFolderPath>C:/agent/AISDK</BaseFolderPath>
+	</SDKLogger>
+</ApplicationInsights>
