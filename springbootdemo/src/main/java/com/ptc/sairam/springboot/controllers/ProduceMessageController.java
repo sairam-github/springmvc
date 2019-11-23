@@ -1,5 +1,7 @@
 package com.ptc.sairam.springboot.controllers;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -33,6 +35,13 @@ public class ProduceMessageController {
 		
 		RequestTelemetryContext context = ThreadContext.getRequestTelemetryContext();
 		RequestTelemetry requestTelemetry = context.getHttpRequestTelemetry();
+		requestTelemetry.getContext().getCloud().setRole("springbootdemo");
+		try {
+			requestTelemetry.getContext().getCloud().setRoleInstance(InetAddress.getLocalHost().getCanonicalHostName());
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		Map<String, String> jmsmessage = new HashMap<String, String>();
 		jmsmessage.put("Id", requestTelemetry.getContext().getOperation().getId());

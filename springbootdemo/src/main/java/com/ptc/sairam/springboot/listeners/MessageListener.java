@@ -1,8 +1,15 @@
 package com.ptc.sairam.springboot.listeners;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Date;
 import java.util.HashMap;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
@@ -21,7 +28,7 @@ public class MessageListener {
 	TelemetryClient telemetryClient;
 
 	@JmsListener(destination = "ptc.webapps")
-	public void GetMessage(HashMap<String, String> message) {
+	public void GetMessage(HashMap<String, String> message) throws Exception {
 		//System.out.println("Received message: " + message);
 		
 		//String parentId = message.substring(14);
@@ -44,6 +51,14 @@ public class MessageListener {
 		RemoteDependencyTelemetry dependencyTelemetry = new RemoteDependencyTelemetry("JMS Message", "JMS", new Duration(200), true);
 		dependencyTelemetry.getContext().getOperation().setId(message.get("Id"));
 		dependencyTelemetry.getContext().getOperation().setParentId(message.get("parentId"));
+		dependencyTelemetry.getContext().getCloud().setRole("springbootdemo");
+		try {
+			dependencyTelemetry.getContext().getCloud().setRoleInstance(InetAddress.getLocalHost().getCanonicalHostName());
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		// dependencyTelemetry.setId(parentId);
 		
 		dependencyTelemetry.setTimestamp(new Date());
@@ -51,5 +66,29 @@ public class MessageListener {
 		telemetryClient.trackDependency(dependencyTelemetry);
 		
 		telemetryClient.trackEvent("Message is received");
+		
+		TrackMethod();
+		
+		// Call Joke service
+		// Get joke
+		String url = "https://api.icndb.com/jokes/random?limitTo=[nerdy]";
+
+		CloseableHttpClient httpclient = HttpClients.createDefault();
+		HttpGet httpget = new HttpGet(url);
+		CloseableHttpResponse response = null;
+		try {
+			response = httpclient.execute(httpget);
+			HttpEntity entity = response.getEntity();
+			System.out.println(entity.getContent().toString());
+		} finally {
+			response.close();
+		}
+		
+		System.out.println("Joke service is called.");
+	}
+	
+	private void TrackMethod() throws Exception {
+		System.out.println("TrackMethod is called.");
+		Thread.sleep(5000);
 	}
 }
